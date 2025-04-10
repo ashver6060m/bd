@@ -1,0 +1,63 @@
+import numpy as np 
+def h1(x):
+  return x % 100
+
+def h2(x):
+  return x * 2 % 100
+
+def give_h_mod(hash_fun,index):
+  tmp = []
+  for i in range(len(index)):
+    tmp.append(hash_fun(index[i]))
+  return tmp
+
+def dig_bin(hash_list):
+  tmp = []
+  for i in range(len(hash_list)):
+    tmp.append(bin(hash_list[i]).replace('0b',''))
+  return tmp
+
+def custom_logic(binary_list):
+    result = []
+    
+    for binary in binary_list:
+        if binary[-1] == '1':
+            result.append(0)
+            continue
+        
+        count = 1
+        for k in range(len(binary)-2, -1, -1):
+            if binary[k] == '0':
+                count += 1
+            elif binary[k] == '1':
+                result.append(count)
+                break
+        else:
+            result.append(0)
+    return result
+
+
+    
+random_index = np.random.randint(40,56,10)
+h1 = give_h_mod(h1,random_index)
+h2 = give_h_mod(h2,random_index)
+print(h1)
+print(h2)
+b1 = dig_bin(h1)
+b2 = dig_bin(h2)
+print(b1)
+print(b2)
+tail1 = custom_logic(b1)
+tail2 = custom_logic(b2)
+print(tail1)
+print(tail2)
+
+max_values = []
+max_values.append(np.max(tail1))
+max_values.append(np.max(tail2))
+
+r = (max_values[0] + max_values[1])/2
+r**2
+
+
+
