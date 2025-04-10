@@ -1,0 +1,31 @@
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import col, when
+
+# Start Spark
+spark = SparkSession.builder.appName("SimpleDemo").getOrCreate()
+
+data = [
+    {"name": "Alice", "age": 25},
+    {"name": "Bob", "age": 30},
+    {"name": "Charlie", "age": 35}
+]
+df = spark.createDataFrame(data)
+print("Original Data:")
+df.show()
+
+df_updated = df.withColumn(
+    "age",
+    when(col("name") == "Alice", 26).otherwise(col("age"))
+)
+print("After Update (Alice age 26):")
+df_updated.show()
+
+df_deleted = df_updated.filter(col("age") <= 30)
+print("After Delete (removed age > 30):")
+df_deleted.show()
+
+df_filtered = df_deleted.filter(col("name") == "Bob")
+print("Filtered (Only Bob):")
+df_filtered.show()
+
+
