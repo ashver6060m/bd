@@ -1,0 +1,24 @@
+%matplotlib inline
+import pandas as pd
+import matplotlib.pyplot as plt
+import networkx as nx
+
+df = pd.read_csv('roadnet.csv')
+df1=df.iloc[:8000]
+graph = nx.from_pandas_edgelist(df1, source='source', target='target', edge_attr=True)
+
+# Calculate betweenness centrality
+betweenness_centrality = nx.betweenness_centrality(graph)
+print(betweenness_centrality)
+
+G = nx.from_pandas_edgelist(df1,
+                            source='source',
+                            target='target',
+                            create_using=nx.DiGraph())
+
+nx.draw_networkx(G)
+
+centrality=nx.degree_centrality(G)
+betweeness=nx.betweenness_centrality(G)
+in_degree=nx.in_degree_centrality(G)
+out_degree=nx.out_degree_centrality(G)
