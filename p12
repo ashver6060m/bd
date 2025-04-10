@@ -1,0 +1,35 @@
+from pyspark.sql import SparkSession
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+
+spark = SparkSession.builder.appName("SklearnLogRegWithPySpark").getOrCreate()
+
+data = [
+    (22, 30000, 0),
+    (25, 40000, 0),
+    (28, 50000, 1),
+    (35, 60000, 1),
+    (40, 80000, 1),
+    (23, 35000, 0),
+    (45, 90000, 1)
+]
+df_spark = spark.createDataFrame(data, ["age", "income", "bought"])
+
+df_pandas = df_spark.toPandas()
+
+X = df_pandas[["age", "income"]]  # features
+y = df_pandas["bought"]           # label
+
+model = LogisticRegression()
+model.fit(X, y)
+
+new_people = pd.DataFrame({
+    "age": [30, 26],
+    "income": [55000, 37000]
+})
+predictions = model.predict(new_people)
+
+print("🔮 Predictions:")
+for i, pred in enumerate(predictions):
+    result = "BUY" if pred == 1 else "NO BUY"
+    print(f"Person {i+1}: {result}")
