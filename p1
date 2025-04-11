@@ -19,3 +19,5 @@ db.myCollection.deleteOne({ name: "Alice" })
 db.myCollection.deleteMany({ age: { $gt: 30 } })
 db.myCollection.deleteMany({})
 db.myCollection.drop()
+mongorestore --db studentDB /path/to/backup/folder/studentDB
+mongodump --db studentDB --out /path/to/backup/folder
