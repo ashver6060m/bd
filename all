@@ -1,5 +1,5 @@
-p1 - spark
-p2 - no sql
+p0 - spark
+p1 - no sql
 p3  - bloom
 p4 - minhashing
 p5 - kshingle
@@ -7,4 +7,6 @@ p6 - ams
 p7 - flaugen martin
 p8 - collab
 p9 - network
-
+p10 - spark_linear
+p11 - spark_logistic
+p12 - spark_logistic_sklearn
