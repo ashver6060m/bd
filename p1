@@ -1,23 +1,51 @@
-db.myCollection.insertOne({ name: "Alice", age: 25 })
-db.myCollection.insertMany([
-  { name: "Bob", age: 30 },
-  { name: "Charlie", age: 35 }
-])
-db.myCollection.updateOne(
-  { name: "Alice" },                   
-  { $set: { age: 26 } }              
-)
-db.myCollection.updateMany(
-  { age: { $gt: 30 } },               
-  { $set: { status: "Senior" } }       
-)
-db.myCollection.replaceOne(
-  { name: "Bob" },                     
-  { name: "Bob", age: 32, job: "Dev" } 
-)
-db.myCollection.deleteOne({ name: "Alice" })
-db.myCollection.deleteMany({ age: { $gt: 30 } })
-db.myCollection.deleteMany({})
-db.myCollection.drop()
-mongorestore --db studentDB /path/to/backup/folder/studentDB
-mongodump --db studentDB --out /path/to/backup/folder
+import re
+
+
+
+def check_if_else_and_switch_statements(filename):
+
+    try:
+
+        with open(filename, 'r') as file:
+
+            content = file.read()
+
+
+
+        # Updated regular expressions
+
+        if_else_found = re.search(r'\b(if|else if|else)\b', content)
+
+        switch_found = re.search(r'\bswitch\s*\(.*?\)\s*\{', content)
+
+
+
+        if if_else_found and switch_found:
+
+            return "The file contains both 'if-else' statements and a 'switch' statement."
+
+        elif if_else_found:
+
+            return "The file contains 'if-else' statements."
+
+        elif switch_found:
+
+            return "The file contains a 'switch' statement."
+
+        else:
+
+            return "The file contains neither 'if-else' nor 'switch' statements."
+
+
+
+    except FileNotFoundError:
+
+        return f"Error: The file '{filename}' was not found."
+
+
+
+filename = input("Enter the path to the text file: ")
+
+result = check_if_else_and_switch_statements(filename)
+
+print(result)
