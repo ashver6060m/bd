@@ -1,51 +1,22 @@
-import re
+import spacy
 
+# Load model
+nlp = spacy.load("en_core_web_sm")
 
+text = "Emma visited Paris"
+doc = nlp(text)
 
-def check_if_else_and_switch_statements(filename):
+for token in doc:
+    if token.dep_ == "nsubj":
+        subject = token.text
+        verb = token.head.text
 
-    try:
+        for child in token.head.children:
+            if child.dep_ == "dobj":
+                obj = child.text
+                print("SVO:", subject, verb, obj)
 
-        with open(filename, 'r') as file:
-
-            content = file.read()
-
-
-
-        # Updated regular expressions
-
-        if_else_found = re.search(r'\b(if|else if|else)\b', content)
-
-        switch_found = re.search(r'\bswitch\s*\(.*?\)\s*\{', content)
-
-
-
-        if if_else_found and switch_found:
-
-            return "The file contains both 'if-else' statements and a 'switch' statement."
-
-        elif if_else_found:
-
-            return "The file contains 'if-else' statements."
-
-        elif switch_found:
-
-            return "The file contains a 'switch' statement."
-
-        else:
-
-            return "The file contains neither 'if-else' nor 'switch' statements."
-
-
-
-    except FileNotFoundError:
-
-        return f"Error: The file '{filename}' was not found."
-
-
-
-filename = input("Enter the path to the text file: ")
-
-result = check_if_else_and_switch_statements(filename)
-
-print(result)
+# =======================
+print("\nEntities:")
+for ent in doc.ents:
+    print(ent.text, "->", ent.label_)
